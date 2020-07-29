@@ -462,7 +462,7 @@ if __name__=="__main__":
     global SCREEN, CLOCK
     pygame.init()
     SCREEN = pygame.display.set_mode((WINDOW_WIDTH + 300, WINDOW_HEIGHT))
-    pygame.display.set_caption('Bubble Sort Visualizer')
+    pygame.display.set_caption('Sorting Visualizer')
     CLOCK = pygame.time.Clock()
     SCREEN.fill(BLACK)
 
