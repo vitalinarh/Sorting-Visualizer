@@ -13,14 +13,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 200)
 
-# bubble_sort 0
-# selection_sort 1
-# insertion_sort 2
-# count_sort 3
-# quick_sort 4
-# heap_sort 5
-
-sort_type = [True, False, False, False, False, False]
+sort_type = [True, False, False, False, False, False, False, False]
 
 def setup(n):
 
@@ -143,7 +136,7 @@ def cocktailSort(values):
 
         start = start + 1
 
-# MERGE SORT ==================================================================================================
+# PANCAKE SORT ==================================================================================================
 
 def flip(values, i):
     start = 0
@@ -212,6 +205,103 @@ def mergeSort(values):
 
     return merge(left, right)
 
+# QUICK SORT =============================================================================================================
+
+def partition(values, l, h):
+    i = ( l - 1 )
+    x = values[h]
+
+    for j in range(l, h):
+        if values[j] <= x:
+
+            i = i + 1
+            values[i], values[j] = values[j], values[i]
+            reDrawLines(values)
+
+    values[i + 1], values[h] = values[h], values[i + 1]
+    reDrawLines(values)
+    return (i + 1)
+
+def quickSortIterative(vaues, l, h):
+
+    size = h - l + 1
+    stack = [0] * (size)
+
+    top = -1
+
+    top = top + 1
+    stack[top] = l
+    top = top + 1
+    stack[top] = h
+
+    while top >= 0:
+
+        # Pop h and l
+        h = stack[top]
+        top = top - 1
+        l = stack[top]
+        top = top - 1
+
+        p = partition(values, l, h )
+
+        if p-1 > l:
+            top = top + 1
+            stack[top] = l
+            top = top + 1
+            stack[top] = p - 1
+
+        if p + 1 < h:
+            top = top + 1
+            stack[top] = p + 1
+            top = top + 1
+            stack[top] = h
+
+# SHELL SORT =============================================================================================================
+def shellSort(values):
+
+    n = len(values)
+    gap = n//2
+
+    while gap > 0:
+
+        for i in range(gap, n):
+
+            temp = values[i]
+
+            j = i
+            while  j >= gap and values[j - gap] >temp:
+                values[j] = values[j - gap]
+                reDrawLines(values)
+                j -= gap
+
+            values[j] = temp
+            reDrawLines(values)
+
+        gap //= 2
+
+# PIGEONHOLE SORT =============================================================================================================
+def pigeonholeSort(values):
+
+    my_min = min(values)
+    my_max = max(values)
+
+    size = my_max - my_min + 1
+
+    holes = [0] * size
+
+    for x in values:
+        assert type(x) is int, "integers only please"
+        holes[x - my_min] += 1
+
+    i = 0
+
+    for count in range(size):
+        while holes[count] > 0:
+            holes[count] -= 1
+            values[i] = count + my_min
+            reDrawLines(values)
+            i += 1
+
 def drawText(message, x, y, color):
 
     font = pygame.font.Font('freesansbold.ttf', 14)
@@ -250,7 +340,7 @@ def display_buttons():
     else:
         drawText('Insertion Sort', 1045, 177, WHITE)
 
-    #button 3 - mergeSort
+    #button 3 - cocktailSort
     rect = pygame.Rect(970, 220, 150, 35)
     pygame.draw.rect(SCREEN, WHITE, rect, 2)
     if sort_type[3]:
@@ -258,7 +348,7 @@ def display_buttons():
     else:
         drawText('Cocktail Sort', 1045, 237, WHITE)
 
-    #button 4 - quickSort
+    #button 4 - pancakeSort
     rect = pygame.Rect(970, 280, 150, 35)
     pygame.draw.rect(SCREEN, WHITE, rect, 2)
     if sort_type[4]:
@@ -266,16 +356,40 @@ def display_buttons():
     else:
         drawText('Pancake Sort', 1045, 297, WHITE)
 
+    #button 5 - quickSort
+    rect = pygame.Rect(970, 340, 150, 35)
+    pygame.draw.rect(SCREEN, WHITE, rect, 2)
+    if sort_type[5]:
+        drawText('Quick Sort', 1045, 357, RED)
+    else:
+        drawText('Quick Sort', 1045, 357, WHITE)
+
+    #button 6 - shellSort
+    rect = pygame.Rect(970, 400, 150, 35)
+    pygame.draw.rect(SCREEN, WHITE, rect, 2)
+    if sort_type[6]:
+        drawText('Shell Sort', 1045, 417, RED)
+    else:
+        drawText('Shell Sort', 1045, 417, WHITE)
+
+    #button 7 - pigeonholeSort
+    rect = pygame.Rect(970, 460, 150, 35)
+    pygame.draw.rect(SCREEN, WHITE, rect, 2)
+    if sort_type[7]:
+        drawText('Pigeonhole Sort', 1045, 477, RED)
+    else:
+        drawText('Pigeonhole Sort', 1045, 477, WHITE)
+
 
     # reset button
-    rect = pygame.Rect(970, 480, 150, 35)
+    rect = pygame.Rect(970, 515, 150, 20)
     pygame.draw.rect(SCREEN, WHITE, rect, 2)
-    drawText('Reset', 1045, 497, WHITE)
+    drawText('Reset', 1045, 525, WHITE)
 
     # start button
-    rect = pygame.Rect(970, 530, 150, 35)
+    rect = pygame.Rect(970, 550, 150, 20)
     pygame.draw.rect(SCREEN, WHITE, rect, 2)
-    drawText('Start', 1045, 547, WHITE)
+    drawText('Start', 1045, 560, WHITE)
 
 def select_type(i):
 
@@ -295,6 +409,12 @@ def getType(i, values):
         cocktailSort(values)
     elif i == 4:
         pancakeSort(values)
+    elif i == 5:
+        quickSortIterative(values, 0, len(values) - 1)
+    elif i == 6:
+        shellSort(values)
+    elif i == 7:
+        pigeonholeSort(values)
 
 def startAlgorithm(values):
     for i in range(len(sort_type)):
@@ -310,7 +430,6 @@ def check_click_btn(pos, values):
     button_x = 970
     button_x2 = 970 + button_width
 
-    # x = 1000 y = 40
     if button_x >= 970 and button_x2 <= 1120:
         if y >= 40 and y <= 75:
             select_type(0)
@@ -322,10 +441,17 @@ def check_click_btn(pos, values):
             select_type(3)
         elif y >= 280 and y <= 315:
             select_type(4)
+        elif y >= 340 and y <= 375:
+            select_type(5)
+        elif y >= 400 and y <= 435:
+            select_type(6)
+        elif y >= 460 and y <= 495:
+            select_type(7)
 
-        elif y >= 480 and y <= 515:
+        elif y >= 515 and y <= 535:
             values = setup(len(values))
-        elif y >= 530 and y <= 565:
+
+        elif y >= 550 and y <= 570:
             # start button
             startAlgorithm(values)
 
