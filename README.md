@@ -1,2 +1,2 @@
-# Bubble-Sort-Visualizer
+# Sorting-Visualizer
 A pygame bubble sort visualizer
