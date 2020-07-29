@@ -1,7 +1,14 @@
-import pygame
-import copy
-import random
-import sys
+try:
+    import pygame
+    import copy
+    import random
+    import sys
+except:
+    import install_requirements  # install packages
+    import pygame
+    import copy
+    import random
+    import sys
 
 WINDOW_HEIGHT = 600
 WINDOW_WIDTH  = 900
