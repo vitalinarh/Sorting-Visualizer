@@ -22,5 +22,5 @@ python -m pip -r requirements
 ## Usage
 - Run program
 ```bash
-`python3 SortingVisualizer`
+python3 SortingVisualizer.py
 ```
