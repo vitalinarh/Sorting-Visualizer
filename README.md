@@ -16,7 +16,7 @@ $ git clone https://github.com/vitalinarh/Sorting-Visualizer
 $ cd Sorting-Visualizer
 
 # Install dependencies
-python -m pip -r requirements
+pip install -r requirements.txt 
 ```
 
 ## Usage
